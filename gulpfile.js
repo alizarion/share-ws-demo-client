@@ -19,6 +19,7 @@ var buildConfig = require('./build.config.js');
 var sh = require('shelljs');
 var dedupe = require('gulp-dedupe');
 var serve = require('gulp-serve');
+var karma = require('gulp-karma');
 
 /**
  * Execute les actions de build dans l'ordre
@@ -162,8 +163,8 @@ gulp.task('locales', function() {
  *
  */
 gulp.task('angular-locales', function() {
-gulp.src(buildConfig.localeJsFiles)
-    .pipe(gulp.dest('./dist/assets/lib/angular-i18n'));
+    gulp.src(buildConfig.localeJsFiles)
+        .pipe(gulp.dest('./dist/assets/lib/angular-i18n'));
 });
 
 gulp.task('serve', serve('main'));
@@ -191,10 +192,10 @@ gulp.task('install', ['git-check'], function() {
 gulp.task('git-check', function(done) {
     if (!sh.which('git')) {
         console.log(
-            '  ' + gutil.colors.red('Git is not installed.'),
+                '  ' + gutil.colors.red('Git is not installed.'),
             '\n  Git, the version control system, is required to download Ionic.',
             '\n  Download git here:', gutil.colors.cyan('http://git-scm.com/downloads') + '.',
-            '\n  Once git is installed, run \'' + gutil.colors.cyan('gulp install') + '\' again.'
+                '\n  Once git is installed, run \'' + gutil.colors.cyan('gulp install') + '\' again.'
         );
         process.exit(1);
     }
@@ -230,14 +231,14 @@ gulp.task('clean-trad-en', function () {
  */
 gulp.task('build-trad-fr-only', function () {
     return gulp.src([ '!./main/assets/locale/**-fr.json',
-                      '!./main/assets/locale/**-en.json',
-                      '!./main/assets/locale/**-de.json',
-                      '!./main/assets/locale/fr.json',
-                      '!./main/assets/locale/en.json',
-                      '!./main/assets/locale/de.json',
-                      './main/assets/locale/**.json'])
+        '!./main/assets/locale/**-en.json',
+        '!./main/assets/locale/**-de.json',
+        '!./main/assets/locale/fr.json',
+        '!./main/assets/locale/en.json',
+        '!./main/assets/locale/de.json',
+        './main/assets/locale/**.json'])
         .pipe(rename(function (path) {
-          path.basename += "-fr";
+            path.basename += "-fr";
         }))
         .pipe(gulp.dest('./main/assets/locale/fr'));
 });
@@ -249,14 +250,14 @@ gulp.task('build-trad-fr-only', function () {
  */
 gulp.task('build-trad-en-only', function () {
     return gulp.src([ '!./main/assets/locale/**-fr.json',
-                      '!./main/assets/locale/**-en.json',
-                      '!./main/assets/locale/**-de.json',
-                      '!./main/assets/locale/fr.json',
-                      '!./main/assets/locale/en.json',
-                      '!./main/assets/locale/de.json',
-                      './main/assets/locale/**.json'])
+        '!./main/assets/locale/**-en.json',
+        '!./main/assets/locale/**-de.json',
+        '!./main/assets/locale/fr.json',
+        '!./main/assets/locale/en.json',
+        '!./main/assets/locale/de.json',
+        './main/assets/locale/**.json'])
         .pipe(rename(function (path) {
-          path.basename += "-en";
+            path.basename += "-en";
         }))
         .pipe(gulp.dest('./main/assets/locale/en'));
 });
@@ -266,8 +267,28 @@ gulp.task('build-trad-en-only', function () {
  */
 gulp.task('build-trad-fr', function(callback){
     runSequence('clean-trad-fr',
-            'build-trad-fr-only',
-            callback);
+        'build-trad-fr-only',
+        callback);
+});
+
+gulp.task('test', function() {
+
+    /**Ajout des fihcier de test **/
+    var allVendorFiles = buildConfig.vendorJavascriptFiles.slice();
+    allVendorFiles.push('./main/assets/lib/angular-mocks/angular-mocks.js');
+    var allAppFiles = buildConfig.appFiles.slice();
+    allAppFiles = _removeValueFromArray(allAppFiles,'!main/app/**/*Test.js');
+    var testFiles = allVendorFiles.concat(allAppFiles);
+
+    return gulp.src(testFiles)
+        .pipe(karma({
+            configFile: 'karma.conf.js',
+            action: 'run'
+        }))
+        .on('error', function(err) {
+            console.log(err);
+            this.emit('end');
+        });
 });
 
 /**
@@ -275,8 +296,8 @@ gulp.task('build-trad-fr', function(callback){
  */
 gulp.task('build-trad-en', function(callback){
     runSequence('clean-trad-en',
-            'build-trad-en-only',
-            callback);
+        'build-trad-en-only',
+        callback);
 });
 
 /**
@@ -284,6 +305,24 @@ gulp.task('build-trad-en', function(callback){
  */
 gulp.task('build-trad', function(callback){
     runSequence('build-trad-fr',
-            'build-trad-en',
-            callback);
+        'build-trad-en',
+        callback);
 });
+
+/**
+ * Simple function to remove item from array by value.
+ * @param array
+ * @returns array without removed items.
+ * @private
+ */
+function _removeValueFromArray(arr) {
+    var what, a = arguments, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax= arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
+}
+

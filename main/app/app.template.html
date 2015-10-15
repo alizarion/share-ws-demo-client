@@ -5,49 +5,20 @@
             <div class="navbar-header">
                 <a class="navbar-brand">
                     <span><img src="assets/img/SCPA_Suppliers_50px.png" width="32" height="32"/></span>
-                    Music Manager
+                   Share-ws Demo api
                 </a>
             </div>
 
             <!-- Header Menu-->
-            <div class="collapse navbar-collapse">
-                <div dropdown class="nav navbar-nav navbar-right white">
-                    <button class="btn white loginButton" type="button" dropdown-toggle>
-                        <i class="glyphicon glyphicon-user white">&nbsp;{{$root.user}}&nbsp;</i><span class="caret white"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a ng-click="changeLanguage('fr_FR')" ng-cloak>
-                                {{'GLOBAL.FRENCH_MENUITEM' | translate}}
-                                <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-ok':currentLanguage == 'fr_FR', '':currentLanguage !== 'fr_FR'}">
-                                </i>
-                            </a>
-                        </li>
-                        <li>
-                            <a ng-click="changeLanguage('en_GB')" ng-cloak>
-                                {{'GLOBAL.ENGLISH_MENUITEM' | translate}}
-                                <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-ok':currentLanguage == 'en_GB', '':currentLanguage !== 'en_GB'}">
-                                </i>
-                            </a>
-                        </li>
-                        <li>
-                            <a ng-click="changeLanguage('de_DE')" ng-cloak>
-                                {{'GLOBAL.GERMAN_MENUITEM' | translate}}
-                                <i class="pull-right glyphicon"
-                                   ng-class="{'glyphicon-ok':currentLanguage == 'de_DE', '':currentLanguage !== 'de_DE'}">
-                                </i>
-                            </a>
-                        </li>
-                        <li class="divider" ng-show="$root.user"></li>
-                        <li ng-show="$root.user">
-                            <a ng-click="authService.logout()" ng-cloak>
-                                {{'GLOBAL.LOGOUT_MENUITEM' | translate}}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" ng-model="$root.searchRequest.serviceUrl" placeholder="SERVICE URL">
+                        <input type="text" class="form-control" ng-model="$root.searchRequest.maskID" placeholder="MASK ID">
+                        <input type="text" class="form-control" ng-model="$root.searchRequest.userID"  placeholder="USER IDX">
+                    </div>
+
+                </form>
             </div>
         </it-side-menu-header>
         <it-side-menu>
@@ -72,11 +43,9 @@
         <it-side-menu-content>
             <!-- WebApp Content -->
 
-            <!-- Login view -->
-            <div ng-if="!$root.user" ng-include="'app/features/login/loginView.html'"></div>
 
             <!-- View container -->
-            <div ng-if="$root.user" class="container-fluid">
+            <div  class="container-fluid">
                 <!-- View title -->
                 <div class="row" ng-show="$root.pageTitle && $root.pageTitle.length > 0">
                     <div class="it-view-header col-md-12">

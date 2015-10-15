@@ -1,16 +1,17 @@
 'use strict';
 
-angular.module('MusicManager')
+angular.module('share.ws.demo')
     .controller('MainController', [
         '$scope',
         '$translate',
-        'AuthService',
-        function ($scope, $translate, AuthService) {
-
+        '$rootScope',
+        'CacheRequestService',
+        function ($scope,
+                  $translate,
+                  $rootScope,
+                  CacheRequestService) {
+            $rootScope.searchRequest = CacheRequestService.load();
             $scope.currentLanguage = 'fr_FR';
-
-            $scope.authService = AuthService;
-
             $scope.changeLanguage = function (language) {
                 $scope.currentLanguage = language;
                 $translate.use(language);

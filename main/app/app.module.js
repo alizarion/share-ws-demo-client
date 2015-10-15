@@ -1,14 +1,18 @@
 'use strict';
 
-angular.module('MusicManager', [
+angular.module('share.ws.demo', [
     'itesoft',
     'ngRoute',
     'ngSanitize',
     'pascalprecht.translate',
     'ui.bootstrap.dropdown'
     ])
-    .config(['$translateProvider', '$translatePartialLoaderProvider', function ($translateProvider, $translatePartialLoaderProvider) {
+    .config(['$translateProvider',
+        '$translatePartialLoaderProvider',
+        function ($translateProvider,
+                  $translatePartialLoaderProvider) {
         // Declare languages mapping
+
         $translateProvider.registerAvailableLanguageKeys(['en', 'fr', 'de'], {
             'en_US': 'en',
             'en_GB': 'en',

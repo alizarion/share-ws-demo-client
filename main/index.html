@@ -1,5 +1,5 @@
 ﻿<!doctype html>
-<html lang="en" ng-app="MusicManager" ng-strict-di>
+<html lang="en" ng-app="share.ws.demo" data-ng-strict-di>
     <head>
         <meta charset="utf-8">
         <title>ITESOFT.MusicManager</title>
@@ -15,7 +15,7 @@
         <link rel="stylesheet" href="assets/css/app.css">
 
         <!-- Lib Scripts Dependencies-->
-        <script type='text/javascript' src="assets/lib/angular-common/dist/assets/lib/vendor.min.js"></script>
+        <script type='text/javascript' src="assets/lib/angular-common/dist/assets/lib/vendor.debug.js"></script>
         <script type='text/javascript' src="assets/lib/angular-common/dist/app/itesoft.debug.js"></script>
         <script type='text/javascript' src="assets/lib/angular-translate-loader-partial/angular-translate-loader-partial.min.js"></script>
         <script type='text/javascript' src="assets/lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
@@ -24,14 +24,18 @@
         <script type='text/javascript' src="app/app.module.js"></script>
         <script type='text/javascript' src="app/app.route.js"></script>
         <script type='text/javascript' src="app/common/services/translationService.js"></script>
-        <script type='text/javascript' src="app/common/controllers/mainController.js"></script>
+
+        <script type='text/javascript' src="app/common/services/fetchDataService.js"></script>
+        <script type='text/javascript' src="app/common/services/cacheRequestService.js"></script>
+        <script type='text/javascript' src="app/common/services/shareService.js"></script>
+
+
 
         <!-- Feature Scripts -->
-        <script type='text/javascript' src="app/features/login/authService.js"></script>
-        <script type='text/javascript' src="app/features/login/loginController.js"></script>
-        <script type='text/javascript' src="app/features/music/poprock/poprockController.js"></script>
-        <script type='text/javascript' src="app/features/music/dance/danceController.js"></script>
-        <script type='text/javascript' src="app/features/playlist/playlistController.js"></script>
+        <script type='text/javascript' src="app/common/controllers/mainController.js"></script>
+        <script type='text/javascript' src="app/features/home/homeController.js"></script>
+
+
     </head>
     <body>
         <div class="full-height" ng-include="'app/app.template.html'"></div>
