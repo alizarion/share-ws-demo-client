@@ -16,7 +16,6 @@ angular.module('share.ws.demo')
 
 
         function _extractValues(data){
-            console.log(data);
             var documents = [];
             data.documents.forEach(function(document){
                 var newDocument =  {};
