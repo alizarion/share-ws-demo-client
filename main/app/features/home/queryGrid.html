@@ -1,0 +1,36 @@
+<table class="table">
+    <thead>
+    <tr>
+        <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <a href="" class="btn btn-default  btn-success" ng-click="addQueryField()" role="button">+</a>
+        </div>
+    </tr>
+    <tr>
+        <th>Key</th>
+        <th>Operator</th>
+        <th>Value</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+
+    <tr ng-repeat="field in searchQueryFields">
+        <td><input class="form-control" type="text"  ng-model="field.key" placeholder="Key"/></td>
+        <td>
+            <select  ng-model="field.operator"  class="form-control" name="select">
+                <option value="<"><</option>
+                <option value="<=" selected><=</option>
+                <option value=">">></option>
+                <option value=">=">>=</option>
+                <option value="==">==</option>
+                <option value="!=">!=</option>
+            </select>
+        </td>
+        <td><input class="form-control" type="text"  ng-model="field.value"   placeholder="Value"/></td>
+        <th> <button class="btn btn-default btn-success btn-xs" ng-click="removeQueryField(field)">X</button> </th>
+    </tr>
+
+
+    </tbody>
+</table>

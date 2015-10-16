@@ -7,13 +7,17 @@ angular.module('share.ws.demo')
         }
 
         function _load(){
-            var searchRequest  = angular.fromJson(localStorage.getItem(CACHED_REQUEST_KEY));
-            if(searchRequest !== null && typeof searchRequest !== 'undefined'){
-                return angular.fromJson(localStorage.getItem(CACHED_REQUEST_KEY));
-            } else {
-                return {}
+            var searchRequest =
+                angular.fromJson(localStorage.getItem(CACHED_REQUEST_KEY));
+
+            if(!searchRequest) {
+                searchRequest = {}
             }
 
+            searchRequest.isComplete =  function(){
+                return this.serviceUrl && this.maskID && this.userID ;
+            };
+            return searchRequest;
         }
 
         return {

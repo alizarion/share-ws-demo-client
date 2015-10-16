@@ -9,8 +9,10 @@ angular.module('share.ws.demo', [
     ])
     .config(['$translateProvider',
         '$translatePartialLoaderProvider',
+        '$httpProvider',
         function ($translateProvider,
-                  $translatePartialLoaderProvider) {
+                  $translatePartialLoaderProvider,
+                  $httpProvider) {
         // Declare languages mapping
 
         $translateProvider.registerAvailableLanguageKeys(['en', 'fr', 'de'], {
@@ -25,7 +27,7 @@ angular.module('share.ws.demo', [
         $translateProvider.useLoader('$translatePartialLoader', {
             urlTemplate: 'assets/locale/{lang}/{part}-{lang}.json'
         });
-
+        $httpProvider.interceptors.push('HttpErrorHandler');
         $translateProvider.useSanitizeValueStrategy();
     }])
     .run(['$rootScope', '$route', function ($rootScope, $route) {

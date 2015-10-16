@@ -5,24 +5,27 @@ angular.module('share.ws.demo')
         '$scope',
         'FetchDataService',
         'ShareService',
+        'CacheRequestService',
         '$rootScope',
         function ($scope,
                   FetchDataService,
                   ShareService,
+                  CacheRequestService,
                   $rootScope) {
             $scope.myDefs = [];
             $scope.dataSource = [];
             $scope.myDefs = [];
 
+
             $scope.search = function (){
 
-                ShareService.search(
-                    $rootScope.searchRequest)
+                ShareService.search($rootScope.searchRequest)
                     .then(function(response){
-                        console.log(response)
+                        $scope.dataSource = [];
                         $scope.dataSource = FetchDataService.extractValues(response.data);
                         $scope.translations = FetchDataService.extractTraduction(response.data);
-                        $scope.dataSource = [];
+
+                        $scope.myDefs = [];
                         var document  = $scope.dataSource[0];
                         for(var name in document) {
                             $scope.myDefs.push(
@@ -33,14 +36,32 @@ angular.module('share.ws.demo')
                             )
 
                         }
+                        $scope.searchControl = {
+                            columnDefs: $scope.myDefs
+                        };
+                        $scope.shareGridOptions.columnDefs =
+                            $scope.myDefs;
 
                     });
             };
 
+            $scope.searchControl = {
+                columnDefs: $scope.myDefs
+            };
             $scope.shareGridOptions = {
                 data: 'dataSource',
                 columnDefs: $scope.myDefs,
-                enableFiltering: true
+                onRegisterApi: function (gridApi) {
+                    $scope.gridApi = gridApi;
+                    $scope.gridApi.grid.registerRowsProcessor($scope.searchControl.multicolumnsFilter, 200);
+                }
             };
 
+            $scope.saveState = function(){
+                CacheRequestService.save($rootScope.searchRequest)
+            };
+
+            $scope.filter = function () {
+                $scope.gridApi.grid.refresh();
+            };
         }]);
