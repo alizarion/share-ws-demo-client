@@ -50,6 +50,7 @@ angular.module('share.ws.demo')
             };
             $scope.shareGridOptions = {
                 data: 'dataSource',
+                showGridFooter: true,
                 columnDefs: $scope.myDefs,
                 onRegisterApi: function (gridApi) {
                     $scope.gridApi = gridApi;

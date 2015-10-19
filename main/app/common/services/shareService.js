@@ -1,5 +1,6 @@
 angular.module('share.ws.demo')
-    .factory('ShareService',['$http','CacheRequestService', function($http,CacheRequestService) {
+    .factory('ShareService',['$http','CacheRequestService','$rootScope',
+        function($http,CacheRequestService,$rootScope) {
 
         function _getQueryFromQueryFields(fields){
             var query = [];
@@ -11,13 +12,19 @@ angular.module('share.ws.demo')
 
         function _search(searchRequest){
             CacheRequestService.save(searchRequest);
+            var queryField = _getQueryFromQueryFields(searchRequest.query);
+            console.log(queryField);
+            $rootScope.lastRequestURL = searchRequest.serviceUrl +
+                '?mask='+searchRequest.maskID+
+                '&user='+searchRequest.userID+ (queryField.length > 0 ? '&query='+queryField :'');
+
             return  $http({
                 method:'GET',
                 url : searchRequest.serviceUrl,
                 params:{
                     mask: searchRequest.maskID,
                     user: searchRequest.userID,
-                    query : _getQueryFromQueryFields(searchRequest.query)
+                    query : queryField
                 }
             })
         }

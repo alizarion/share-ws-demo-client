@@ -3,12 +3,14 @@
 angular.module('share.ws.demo')
     .factory('FetchDataService',function() {
         function _extractTraduction(data){
+            console.log(data.header.columnsHeader);
             var i = 0;
             var trads ={};
             angular.forEach(data.header.columnsHeader,function(column){
-                trads[column.code] = data.documents[0].fields[i].translation;
+                trads[column.code] = column.desc;
                 i++
             });
+            console.log(trads);
             return trads;
         }
 
@@ -22,7 +24,7 @@ angular.module('share.ws.demo')
                 newDocument.docIdxGed = document.docIdxGed;
                 var i = 0;
                 angular.forEach(document.fields,function(field){
-                    newDocument[data.header.columnsHeader[i].code] = field.value;
+                    newDocument[data.header.columnsHeader[i].code] = field.translation ? field.translation : field.value ;
                     i++;
                 });
                 documents.push(newDocument);
