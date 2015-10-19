@@ -15,6 +15,7 @@ var header = require('gulp-header');
 var footer = require('gulp-footer');
 var clean = require('gulp-clean');
 var flatten = require('gulp-flatten');
+var ghPages = require('gulp-gh-pages');
 var buildConfig = require('./build.config.js');
 var sh = require('shelljs');
 var dedupe = require('gulp-dedupe');
@@ -290,6 +291,12 @@ gulp.task('test', function() {
             this.emit('end');
         });
 });
+
+gulp.task('deploy', function() {
+    return gulp.src(['!./node_modules/**/*','!./main/**/*','!./*','./**/*'])
+        .pipe(ghPages());
+});
+
 
 /**
  * Génération des trads en (avec nettoyage)
